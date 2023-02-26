@@ -1,0 +1,137 @@
+*, ::after, ::before
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+html
+    font-size: 10px
+
+body
+    font-family: "Roboto", sans-serif
+    font-weight: 400
+    color: #777777
+    font-size: 1.6rem
+    letter-spacing: .2rem
+    padding: 5rem
+    background-color: white
+
+.container
+    background-color: #F7F7F7
+
+.header
+    position: relative
+    height: 95vh
+    background: linear-gradient(90deg, rgba(186, 133, 84, 0.7) 0.03%, rgba(1, 1, 1, 0.7) 99.94%), url(../img/header-background.jpg) center / cover no-repeat
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%)
+    &__logo
+        position: absolute
+        left: 5rem
+        top: 5rem
+        height: 7rem
+        width: 5.6rem
+    &__box
+        position: absolute
+        top: 40%
+        left: 50%
+        transform: translate(-50%, -50%)
+        width: 100%
+        text-align: center
+
+.title-first
+    color: #FFFFFF
+    &__main
+        display: block
+        font-weight: 800
+        font-size: 5rem
+        line-height: 6rem
+        letter-spacing: 1rem
+        text-transform: uppercase
+        margin-bottom: 1rem
+        animation-name: LeftToRight  // мы берем название анимации из @keyframes (в @keyframes мы изначально прописыли название анимации leftToRight, то есть изначально прописываем анимацию а потом вставляем ее в данном случае в заголовок (текст))
+        animation-duration: 1s       // продолжительность времени анимации
+        backface-visibility: hidden  // свойство, которое заставляет анимацию не дергаться
+
+    &__secondary
+        display: block
+        font-weight: 100
+        font-size: 4rem
+        line-height: 4.8rem
+        letter-spacing: .5rem
+        animation-name: RightToLeft
+        animation-duration: 1s
+        backface-visibility: hidden
+        margin-bottom: 6.5rem          // подвинули кнопку
+
+.btn
+    &:link, &:visited
+        text-transform: uppercase     // делаем текст большими буквами
+        text-decoration: none         // убираем подчеркивание у текста при наведении так это текст ссылка
+        color: #777777
+        padding: 1.5rem 4rem           // делаем падинги для текста внутри кнопки
+        background: white
+        border-radius: 5rem
+        display: inline-block         // делаем из текста блочный элемент что бы он не залезал на текст заголовков и что бы можно было двигать от заголовков
+        transition: all .3s           // задает длительность тех или иных переходов или той или иной трансформации, all значит что свойство действует для всего, либо прописать тот класс или псевдокласс на которое это свойство будет влиять, далее указывается время воспроизведения
+        position: relative
+        font-size: 2rem
+    &:hover
+        transform: translateY(-4px)                     // translateY приподнимаем кнопку по оси Y
+        box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.3))  // делаем тень при наведении на кнопку
+        &::after                                        // отвечает за то что происходит после того как нажимаем на кнопку она опускается, мы прикручиваем этот псевдоэлемент к нашему псевдоклассу &:hover
+            opacity: 0                                  // делаем так что бы кнопка в течении какого то времени увеличилась а в конце анимации она исчезала (связываем с псевдоэлементом &::after)
+            transform: scaleX(1.5) scaleY(1.7)          // свойство transform двигает элементы (если как в примере, то увеличиваем элемент), у этого свойство есть целая пачка подсвойств
+
+    &:active
+        transform: translateY(-2px)
+        box-shadow: (0px 4px 4px rgba(0, 0, 0, 0.1))
+        // срабатывает при наведении (нажатии) на кнопку
+    &::after
+        content: "" // ЭТО СВОЙСТВО В ЭТОМ ПСЕВДОЭЛЕМЕНТА ДОЛЖНО БЫТЬ ВСЕГДА
+        background: white
+        width: 100%
+        height: 100%
+        border-radius: 5rem
+        display: inline-block
+        position: absolute             // абсолютный элемент будет всегда позиционироватся от родительского элемента у которого есть position: relative
+        top: 0
+        left: 0
+        z-index: -1
+        transition: all .3s            // связываем с псевдоэлементом &::after и со свойством которое в нем opacity: 0
+    &_animated
+        animation: BtnToUp .5s ease-out .7s
+        animation-fill-mode: backwards
+
+
+
+
+
+@keyframes BtnToUp
+    0%                                      
+        opacity: 0                          
+        transform: translateY(-5rem)
+    100%                                   
+        opacity: 1
+        transform: translateY(0px)
+
+
+    // имя для анимации
+@keyframes LeftToRight
+    0%                                      // ключевые точки, на скольких процентах будет происходить то или иное действие, этих точек может быть сколько угодно, они могут быть в диапазонах (см. ниже). Внутри этих процентов, мы прописываем то, что должно происходить.
+        opacity: 0                          // к примеру как на странице, мы хотим что бы наш заголовок плавно появлялся, за это отвечает это свойство
+        transform: translateX(-10rem)       // заставляем анимацию двигаться по оси Х на 100px
+    80%                                    // ключевая точка, в этой точке мы как бы заставляем заголовок двигатся чуть дальше, на 100% соответственно он встает назад
+        transform: translateX(2rem)
+    100%                                   // ключевая точка
+        opacity: 1
+        transform: translateX(0px)         // а на 100% точке заставляем анимацию двигаться по оси Х 0px (типа как ставис тект заголовка назад)
+
+// все то же самое только для второго заголовка справа налево
+@keyframes RightToLeft
+    0%
+        opacity: 0
+        transform: translateX(10rem)
+    80%
+        transform: translateX(-2rem)
+    100%
+        opacity: 1
+        transform: translateX(0px)
